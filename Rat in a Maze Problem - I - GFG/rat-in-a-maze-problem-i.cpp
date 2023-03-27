@@ -10,46 +10,31 @@ using namespace std;
 
 class Solution{
     public:
-    void rec(int row, int col, string path, vector<vector<int>>&visited, vector<string>&ans, vector<vector<int>>&m, int n){
+    void rec(int row, int col, string path, vector<vector<int>>&visited, vector<string>&ans, int di[], int dj[], vector<vector<int>>&m, int n){
         if(row==n-1 && col==n-1){
             ans.push_back(path);
             return;
         }
         
-        //down
-        if(row+1<n && !visited[row+1][col] && m[row+1][col]==1){
-            visited[row][col]=1;
-            rec(row+1, col, path+"D", visited, ans, m, n);
-            visited[row][col]=0;
-        }
-        
-        //left
-        if(col-1>=0 && !visited[row][col-1] && m[row][col-1]==1){
-            visited[row][col]=1;
-            rec(row, col-1, path+"L", visited, ans, m, n);
-            visited[row][col]=0;
-        }
-        
-        //right
-        if(col+1<n && !visited[row][col+1] && m[row][col+1]==1){
-            visited[row][col]=1;
-            rec(row, col+1, path+"R", visited, ans, m, n);
-            visited[row][col]=0;
-        }
-        
-        //up
-        if(row-1>=0 && !visited[row-1][col] && m[row-1][col]==1){
-            visited[row][col]=1;
-            rec(row-1, col, path+"U", visited, ans, m, n);
-            visited[row][col]=0;
+        string direction = "DLRU";
+        for(int ind=0; ind<4; ind++){
+            int nextrow = row + di[ind];
+            int nextcol = col + dj[ind];
+            if(nextrow>=0 && nextcol>=0 && nextrow<n && nextcol<n && !visited[nextrow][nextcol] && m[nextrow][nextcol]==1){
+                visited[row][col]=1;
+                rec(nextrow, nextcol, path+direction[ind], visited, ans, di, dj, m, n);
+                visited[row][col]=0;
+            }
         }
     }
     vector<string> findPath(vector<vector<int>> &m, int n) {
         // Your code goes here
         vector<string>ans;
         vector<vector<int>>visited(n,vector<int>(n,0));
+        int di[] = {+1, 0, 0, -1};
+        int dj[] = {0,0-1, +1, 0};
         if(m[0][0]==1){
-            rec(0,0,"", visited, ans, m, n);
+            rec(0,0,"", visited, ans, di, dj, m, n);
         }
         return ans;
     }
