@@ -1,31 +1,43 @@
 class Solution {
 public:
     vector<vector<int>> generateMatrix(int n) {
-        vector<vector<int> > vv(n, vector<int>(n));
-    
-        int rowStart = 0, rowEnd = n - 1;
-        int colStart = 0, colEnd = n - 1;
-        int cnt = 1;
-    
-        while(rowStart <= rowEnd && colStart <= colEnd)
-        {
-            for(int i = colStart; i<= colEnd; i++)
-                vv[rowStart][i] = cnt++;
-            rowStart++;
+       int left=0;
+        int right=n-1;
+        int top=0;
+        int bottom=n-1;
+        int k=1;
+        vector<vector<int>> matrix(n, vector<int>(n));
         
-            for(int i = rowStart; i<= rowEnd; i++)
-                vv[i][colEnd] = cnt++;
-            colEnd--;
-        
-            for(int i = colEnd; i>= colStart; i--)
-                vv[rowEnd][i] = cnt++;
-            rowEnd--;
-        
-            for(int i = rowEnd; i>= rowStart; i--)
-                vv[i][colStart] = cnt++;
-            colStart++;
+        while(left<=right && top<=bottom){
+            //traversing right
+            for(int i=left; i<=right; i++){
+                matrix[top][i] = k;
+                k++;
+            }
+            top++;
+            //traversing down
+            for(int i=top; i<=bottom; i++){
+                matrix[i][right] = k;
+                k++;
+            }
+            right--;
+            //traversing left
+            if(top<=bottom){
+                for(int i=right; i>=left; i--){
+                    matrix[bottom][i] = k;
+                    k++;
+                }
+                bottom--;
+            }
+            //traversing up
+            if(left<=right){
+                for(int i=bottom; i>=top; i--){
+                    matrix[i][left] = k;
+                    k++;
+                }
+                left++;
+            }
         }
-    
-        return vv;
+        return matrix;
     }
 };
