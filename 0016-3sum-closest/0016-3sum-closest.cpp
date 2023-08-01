@@ -12,13 +12,13 @@ public:
         // Use Two Pointer For Optimization: O(n^2)
           for(int i=0;i<n-2;i++)
           {
-              int start=i+1;
-              int end=n-1;
+              int j=i+1;
+              int k=n-1;
               
               // Iterate Two Pointer
-              while(start<end)
+              while(j<k)
               {
-                  int val=nums[start]+nums[end]+nums[i];
+                  int val=nums[i]+nums[j]+nums[k];
                   
             // If three values summation is equal to target then just return
                   if(val==target)
@@ -27,10 +27,10 @@ public:
                   {
                     // If val<target then just point 'start' to it's next value
                       if(val<target)
-                          start++;
+                          j++;
                   else
                       // If val>target then just point 'end' to it's last value
-                      end--;}
+                      k--;}
                   
         // Store value every time in result if you find a value more closer to it's target
                   if(diff>abs(val-target))
