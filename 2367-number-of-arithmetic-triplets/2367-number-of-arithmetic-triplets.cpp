@@ -1,18 +1,16 @@
 class Solution {
 public:
     int arithmeticTriplets(vector<int>& nums, int diff) {
-        int ans=0;
+       int count=0;
+        map<int, bool>map;
         for(int i=0; i<nums.size(); i++){
-            int count=0;
-            for(int j=i+1; j<nums.size(); j++){
-                if(nums[j]-nums[i]==diff || nums[j]-nums[i]==2*diff){
-                    count++;
-                }
-            }
-            if(count==2){
-                ans++;
+            map[nums[i]] = true;
+        }
+        for(int i=0; i<nums.size(); i++){
+            if(map[nums[i]-diff] && map[nums[i]+diff]){
+                count++;
             }
         }
-        return ans;
+        return count;
     }
 };
