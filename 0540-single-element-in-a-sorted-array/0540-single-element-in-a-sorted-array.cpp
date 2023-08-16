@@ -1,10 +1,16 @@
 class Solution {
 public:
     int singleNonDuplicate(vector<int>& nums) {
-        int Xor=0;
+        map<int, int>map;
         for(int i=0; i<nums.size(); i++){
-            Xor = Xor^nums[i];
+            map[nums[i]]++;
         }
-        return Xor;
+        
+        for(auto it: map){
+            if(it.second == 1){
+                return it.first;
+            }
+        }
+        return -1;
     }
 };
