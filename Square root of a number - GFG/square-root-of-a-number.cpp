@@ -9,10 +9,19 @@ using namespace std;
 // x: element to find square root
 class Solution{
   public:
-    long long int floorSqrt(long long int x) 
+    long long int floorSqrt(long long int n) 
     {
         // Your code goes here  
-        int ans = sqrt(x);
+        int ans = 0;
+        //linear search on the answer space:
+        for (long long i = 1; i <= n; i++) {
+            long long val = i * i;
+            if (val <= n * 1ll) {
+                ans = i;
+            } else {
+                break;
+            }
+        }
         return ans;
     }
 };
