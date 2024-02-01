@@ -8,14 +8,14 @@
  */
 class Solution {
 public:
-    //optimal
+    //brute
     bool hasCycle(ListNode *head) {
-        ListNode* slow = head;
-        ListNode* fast = head;
-        while(fast!=NULL && fast->next!=NULL){
-            slow = slow->next;
-            fast = fast->next->next;
-            if(slow==fast) return true;
+        ListNode* temp = head;
+        map<ListNode*, int>memo;
+        while(temp!=NULL){
+            if(memo.find(temp)!=memo.end()) return true;
+            memo[temp] = 1;
+            temp = temp->next;
         }
         return false;
     }
