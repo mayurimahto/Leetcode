@@ -8,6 +8,7 @@
  */
 class Solution {
 public:
+    //optimal
     bool hasCycle(ListNode *head) {
         ListNode* slow = head;
         ListNode* fast = head;
