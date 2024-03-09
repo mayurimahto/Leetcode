@@ -1,5 +1,6 @@
 class Solution {
 public:
+    //Memoization
     int minCoins(int ind, vector<vector<int>>&dp, vector<int>&coins, int target){
         if(ind == 0){
             if(target % coins[ind] == 0){
