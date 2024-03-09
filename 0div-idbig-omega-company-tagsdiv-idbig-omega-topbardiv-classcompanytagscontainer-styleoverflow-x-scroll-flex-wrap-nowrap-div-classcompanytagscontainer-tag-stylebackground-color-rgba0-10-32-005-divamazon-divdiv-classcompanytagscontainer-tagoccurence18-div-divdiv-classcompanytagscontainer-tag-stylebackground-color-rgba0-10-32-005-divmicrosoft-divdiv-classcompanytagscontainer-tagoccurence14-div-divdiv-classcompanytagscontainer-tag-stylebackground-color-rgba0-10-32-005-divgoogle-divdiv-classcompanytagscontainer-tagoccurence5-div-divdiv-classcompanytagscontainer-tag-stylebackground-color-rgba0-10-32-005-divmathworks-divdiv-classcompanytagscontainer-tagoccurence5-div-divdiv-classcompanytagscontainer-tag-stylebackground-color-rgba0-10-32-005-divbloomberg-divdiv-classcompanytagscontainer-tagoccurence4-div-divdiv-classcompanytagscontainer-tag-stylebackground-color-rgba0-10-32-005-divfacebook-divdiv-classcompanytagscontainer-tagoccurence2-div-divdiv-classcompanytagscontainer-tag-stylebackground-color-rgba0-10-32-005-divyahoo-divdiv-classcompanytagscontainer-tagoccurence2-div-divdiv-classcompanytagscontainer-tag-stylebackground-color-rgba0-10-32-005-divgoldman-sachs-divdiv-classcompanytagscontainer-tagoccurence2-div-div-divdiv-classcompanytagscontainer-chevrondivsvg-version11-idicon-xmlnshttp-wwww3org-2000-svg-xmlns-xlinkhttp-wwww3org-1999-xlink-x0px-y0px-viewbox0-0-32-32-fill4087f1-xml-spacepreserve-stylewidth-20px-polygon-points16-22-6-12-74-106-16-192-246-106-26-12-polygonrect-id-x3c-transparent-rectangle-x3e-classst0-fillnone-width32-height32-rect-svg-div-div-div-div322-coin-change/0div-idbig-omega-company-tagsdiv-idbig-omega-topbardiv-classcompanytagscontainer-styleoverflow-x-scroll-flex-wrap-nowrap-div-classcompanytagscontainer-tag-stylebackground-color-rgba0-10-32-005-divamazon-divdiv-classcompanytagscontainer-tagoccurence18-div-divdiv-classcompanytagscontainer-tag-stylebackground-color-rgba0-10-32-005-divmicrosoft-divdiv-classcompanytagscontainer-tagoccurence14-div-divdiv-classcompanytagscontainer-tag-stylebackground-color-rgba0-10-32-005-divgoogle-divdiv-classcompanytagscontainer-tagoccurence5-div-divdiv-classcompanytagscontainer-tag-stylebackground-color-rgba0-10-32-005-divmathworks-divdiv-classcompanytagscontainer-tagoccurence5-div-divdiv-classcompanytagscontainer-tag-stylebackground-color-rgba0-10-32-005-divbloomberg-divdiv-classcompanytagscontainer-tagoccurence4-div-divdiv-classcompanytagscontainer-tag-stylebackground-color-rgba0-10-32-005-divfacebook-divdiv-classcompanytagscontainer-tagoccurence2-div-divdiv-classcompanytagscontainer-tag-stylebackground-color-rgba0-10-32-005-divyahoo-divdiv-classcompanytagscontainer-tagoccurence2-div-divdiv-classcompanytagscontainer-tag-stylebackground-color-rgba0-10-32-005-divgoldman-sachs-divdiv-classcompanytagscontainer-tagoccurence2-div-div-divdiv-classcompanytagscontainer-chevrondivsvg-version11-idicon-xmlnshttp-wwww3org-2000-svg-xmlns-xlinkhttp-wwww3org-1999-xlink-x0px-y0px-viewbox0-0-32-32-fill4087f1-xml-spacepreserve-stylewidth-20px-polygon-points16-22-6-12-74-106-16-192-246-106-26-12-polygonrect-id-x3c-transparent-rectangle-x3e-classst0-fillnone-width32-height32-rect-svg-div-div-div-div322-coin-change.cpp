@@ -1,28 +1,45 @@
 class Solution {
 public:
-    //Memoization
-    int minCoins(int ind, vector<vector<int>>&dp, vector<int>&coins, int target){
-        if(ind == 0){
-            if(target % coins[ind] == 0){
-                return target/coins[ind];
+    int coinChange(vector<int>& arr, int T) {
+        int n = arr.size();
+    
+        // Create two vectors to store the previous and current DP states
+        vector<int> prev(T + 1, 0);
+        vector<int> cur(T + 1, 0);
+
+        // Initialize the first row of the DP table
+        for (int i = 0; i <= T; i++) {
+            if (i % arr[0] == 0)
+                prev[i] = i / arr[0];
+            else
+                prev[i] = 1e9; // Set it to a very large value if not possible
+        }
+
+        // Fill the DP table using a bottom-up approach
+        for (int ind = 1; ind < n; ind++) {
+            for (int target = 0; target <= T; target++) {
+                // Calculate the minimum elements needed without taking the current element
+                int notTake = prev[target];
+
+                // Calculate the minimum elements needed by taking the current element
+                int take = 1e9; // Initialize 'take' to a very large value
+                if (arr[ind] <= target)
+                    take = 1 + cur[target - arr[ind]];
+
+                // Store the minimum of 'notTake' and 'take' in the current DP state
+                cur[target] = min(notTake, take);
             }
-            else return 1e9;
+            // Update the previous DP state with the current state for the next iteration
+            prev = cur;
         }
-        
-        if(dp[ind][target]!=-1) return dp[ind][target];
-        
-        int nottake = 0 + minCoins(ind-1, dp, coins, target);
-        int take = INT_MAX;
-        if(coins[ind]<=target){
-            take = 1 + minCoins(ind, dp, coins, target-coins[ind]);
-        }
-        return dp[ind][target] = min(take, nottake);
-    }
-    int coinChange(vector<int>& coins, int amount) {
-        int n = coins.size();
-        vector<vector<int>> dp(n, vector<int>(amount + 1, -1));
-        int ans = minCoins(n-1, dp, coins, amount);
-        if(ans>=1e9) return -1;
-        else return ans;
+
+        // The answer is in the last row of the DP table
+        int ans = prev[T];
+
+        // If 'ans' is still very large, it means it's not possible to form the target sum
+        if (ans >= 1e9)
+            return -1;
+
+        return ans; // Return the minimum number of elements needed
     }
 };
